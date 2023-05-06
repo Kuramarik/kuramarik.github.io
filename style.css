@@ -1,0 +1,88 @@
+.header{
+    display:flex;
+    flex-direction: column;
+    align-items:stretch;
+    border:2px solid red;
+}
+.banner {
+    display:flex;
+    background-color:#004AAD;
+    height: 60px;
+    border:2px solid red;
+}
+.picture {
+    display:flex;
+    width:1000px;
+    align-self:center
+}
+
+.content{
+    display:flex;
+    justify-content: space-evenly;
+    border:2px solid red;
+    padding:20px;
+}
+
+.navbar{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    background-color: #949494;
+    padding-bottom:60px;
+    flex-grow:1;
+    flex-basis:100px
+}
+.pages{
+    margin-right:20px;
+}
+
+.core{
+    display: flex;
+    flex-direction: column;
+    flex-grow:3;
+    align-items:center;
+}
+#rules{
+    display:flex;
+}
+#toschedule{
+    display:flex;
+    flex-direction: column;
+    margin-top:60px;
+    color:#004AAD;
+}
+
+.contours{
+    display:flex;
+    flex-direction: column;
+}
+#contacts{
+    border:1px solid #949494;
+    margin-bottom:10px;
+}
+#hours{
+    border:1px solid #949494;
+}
+
+#timegrid{
+    display:flex;
+    flex-grow:5;
+    border:2px solid red;
+    justify-content: space-evenly;
+}
+.timecolumn{
+    display:flex;
+    flex-direction: column;
+}
+
+.timeslot,
+.times {
+    display:flex;
+    flex-direction:column;
+    padding-bottom:25px;
+    padding-top:25px;
+    align-items:center;
+    justify-content: center;
+}
+
+.timeslot{border-bottom:1px solid #949494}
