@@ -8,20 +8,20 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
-<body>
+<body onload="ifsigned()">
     <div class="header">
         <div class="banner">
-            <button class="signin" onclick="window.location.href='#popup-box';">SIGN IN</button>
+            <button id="signbutton" class="signin" onclick="window.location.href='#popup-box'; identify()">SIGN IN</button>
             <div id="popup-box" class="modal">
                 <div class="boxes">
                     <h2 style="color: #004AAD;">Sign In Here!</h2>
                     <div class="emailsign">
                         <h3>Email:</h3>
-                        <input type="text" id="username">
+                        <input type="text" id="username" onfocus="this.value=''">
                     </div>
                     <div class="passsign">
                         <h3>Password:</h3>
-                        <input type="Password" id="password">
+                        <input type="Password" id="password" onfocus="this.value=''">
                     </div>
                     <button class="signin" type="button" onclick="getInfo()">Sign In</button> 
                     <a href="#"class="box-close">×</a>
@@ -57,8 +57,8 @@
                 </ul>
             </div>
             <div id="toschedule">
-                <p>To Schedule your time, please input a date before proceeding to
-                    the <a href="plan/schedule.html">Schedule</a> page
+                <p>To schedule your time, please input a date
+                     before proceeding to the Schedule page
                 </p>
                 <div style="display:flex;
                 border:1px solid #004AAD">
@@ -70,14 +70,13 @@
                         <p>year</p>
                     </div>
                     <div style="display:flex; flex-grow:1;"></div>
-                    <button style="display:flex;
+                    <button id="schedulenav" onclick="location.href='plan/schedule.html'" type="button" style="display:flex;
                     flex-grow:2;
                     align-items:center;
                     justify-content:center;
                     background-color:#004AAD;
                     color:#FFFFFF">
-                        SCHEDULE
-                    </button>
+                        SCHEDULE</button>
                 </div>
             </div>
         </div>

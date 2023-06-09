@@ -22,9 +22,18 @@ buttons.forEach((button) => {
   });
 });
 
-//localStorage.removeItem("objlen")
-
 var objPeople = []
+
+function identify() {
+  console.log("check")
+  const signbutton=document.getElementById('signbutton')
+  if (signbutton.innerHTML != "SIGN IN") {
+    if(confirm("Would you like to sign out?")) {
+      signbutton.innerHTML = "SIGN IN"
+      localStorage.removeItem("signed")
+    }
+  }
+}
 
 function getInfo() {
   if (localStorage.getItem("objlen") != null) {
@@ -35,34 +44,49 @@ function getInfo() {
   //set username and password
   var username=document.getElementById('username').value
   var password=document.getElementById('password').value
+  document.getElementById('username').value =""
+  document.getElementById('password').value =""
+  const signbutton=document.getElementById('signbutton')
   //establish newPeople
   newPeople = {}
   newPeople["username"]=username
   newPeople["password"]=password
-  //fill objPeople with dictionaries equal to the number of people that are registered - 1
-  for (var j=0; j<objlen; j++) {
-    objPeople.push(dict={"username":0, "password":0})
-  }
+  //check if the username and password are in storage
   for (var i=0; i<=objlen;i++) {
     if (localStorage.getItem(String(i)) != null) {
       if (username==JSON.parse(localStorage.getItem(String(i)))["username"] && password==JSON.parse(localStorage.getItem(String(i)))["password"]) {
+        signbutton.innerHTML=JSON.parse(localStorage.getItem(String(i)))["name"]
+        localStorage.setItem("signed", localStorage.getItem(String(i)))
         alert("You have been logged in. Please close the sign-in window")
         return
       }
     }
   }
+  //if not, store them, plus the user's name
   const fullname = prompt("Enter your name as \"Last Name\", \"First Name\" to sign in!")
   if (fullname !="") {
       newPeople["name"] = fullname
+      alert("You have been signed in. Welcome! Please close the sign-in window")
   }
   objPeople.push(newPeople)
   localStorage.setItem(String(objlen), JSON.stringify(objPeople[objlen]))
   objlen += 1
   localStorage.setItem("objlen", objlen)
-  //every password/username besides the current one immediately turns into null
+  signbutton.innerHTML=newPeople["name"]
+  localStorage.setItem("signed", JSON.stringify(newPeople))
   console.log(objPeople)
   console.log(objlen)
 }
 
 //localStorage.clear()
-//console.log(localStorage.getItem("objlen"))
+//console.log(localStorage.getItem("signed"))
+
+function ifsigned() {
+  const signbutton=document.getElementById('signbutton')
+  if (localStorage.getItem("signed") !=null) {
+    signbutton.innerHTML = JSON.parse(localStorage.getItem("signed"))["name"]
+  } else {
+    signbutton.innerHTML = "SIGN IN"
+    return
+  }
+}
