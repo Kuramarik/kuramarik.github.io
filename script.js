@@ -43,12 +43,18 @@ function getInfo() {
   for (var j=0; j<objlen; j++) {
     objPeople.push(dict={"username":0, "password":0})
   }
-  //for (var i=0; i<objlen;i++) {
-    //if (username == localStorage.getItem(objPeople[i]["username"]) && password==localStorage.getItem(objPeople[i]["password"])) {
-      //alert("You have been logged in. Please close the sign-in window")
-      //return
-    //}
-  //}
+  for (var i=0; i<=objlen;i++) {
+    if (localStorage.getItem(String(i)) != null) {
+      if (username==JSON.parse(localStorage.getItem(String(i)))["username"] && password==JSON.parse(localStorage.getItem(String(i)))["password"]) {
+        alert("You have been logged in. Please close the sign-in window")
+        return
+      }
+    }
+  }
+  const fullname = prompt("Enter your name as \"Last Name\", \"First Name\" to sign in!")
+  if (fullname !="") {
+      newPeople["name"] = fullname
+  }
   objPeople.push(newPeople)
   localStorage.setItem(String(objlen), JSON.stringify(objPeople[objlen]))
   objlen += 1
@@ -56,7 +62,6 @@ function getInfo() {
   //every password/username besides the current one immediately turns into null
   console.log(objPeople)
   console.log(objlen)
-  console.log(JSON.parse(localStorage.getItem("1"))["password"])
 }
 
 //localStorage.clear()
