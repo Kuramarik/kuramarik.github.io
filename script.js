@@ -50,16 +50,13 @@ function getInfo() {
     //}
   //}
   objPeople.push(newPeople)
-  localStorage.setItem(objPeople[objlen]["username"], username)
-  localStorage.setItem(objPeople[objlen]["password"], password)
+  localStorage.setItem(String(objlen), JSON.stringify(objPeople[objlen]))
   objlen += 1
   localStorage.setItem("objlen", objlen)
   //every password/username besides the current one immediately turns into null
   console.log(objPeople)
   console.log(objlen)
-  console.log(localStorage.getItem("objlen"))
-  console.log(localStorage.getItem(objPeople[0]["username"]))
-  console.log(localStorage.getItem(objPeople[0]["password"]))
+  console.log(JSON.parse(localStorage.getItem("1"))["password"])
 }
 
 //localStorage.clear()
