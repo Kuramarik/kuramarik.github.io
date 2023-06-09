@@ -21,3 +21,46 @@ buttons.forEach((button) => {
     }
   });
 });
+
+//localStorage.removeItem("objlen")
+
+var objPeople = []
+
+function getInfo() {
+  if (localStorage.getItem("objlen") != null) {
+    var objlen = parseInt(localStorage.getItem("objlen"))
+  } else {
+    var objlen=0
+  }
+  //set username and password
+  var username=document.getElementById('username').value
+  var password=document.getElementById('password').value
+  //establish newPeople
+  newPeople = {}
+  newPeople["username"]=username
+  newPeople["password"]=password
+  //fill objPeople with dictionaries equal to the number of people that are registered - 1
+  for (var j=0; j<objlen; j++) {
+    objPeople.push(dict={"username":0, "password":0})
+  }
+  //for (var i=0; i<objlen;i++) {
+    //if (username == localStorage.getItem(objPeople[i]["username"]) && password==localStorage.getItem(objPeople[i]["password"])) {
+      //alert("You have been logged in. Please close the sign-in window")
+      //return
+    //}
+  //}
+  objPeople.push(newPeople)
+  localStorage.setItem(objPeople[objlen]["username"], username)
+  localStorage.setItem(objPeople[objlen]["password"], password)
+  objlen += 1
+  localStorage.setItem("objlen", objlen)
+  //every password/username besides the current one immediately turns into null
+  console.log(objPeople)
+  console.log(objlen)
+  console.log(localStorage.getItem("objlen"))
+  console.log(localStorage.getItem(objPeople[0]["username"]))
+  console.log(localStorage.getItem(objPeople[0]["password"]))
+}
+
+//localStorage.clear()
+//console.log(localStorage.getItem("objlen"))

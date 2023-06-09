@@ -6,11 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tennis Registration Site</title>
     <link rel="stylesheet" href="style.css">
-    <script src="javascript.js"></script>
+    <script src="script.js"></script>
 </head>
 <body>
     <div class="header">
-        <div class="banner"></div>
+        <div class="banner">
+            <button class="signin" onclick="window.location.href='#popup-box';">SIGN IN</button>
+            <div id="popup-box" class="modal">
+                <div class="boxes">
+                    <h2 style="color: #004AAD;">Sign In Here!</h2>
+                    <div class="emailsign">
+                        <h3>Email:</h3>
+                        <input type="text" id="username">
+                    </div>
+                    <div class="passsign">
+                        <h3>Password:</h3>
+                        <input type="Password" id="password">
+                    </div>
+                    <button class="signin" type="button" onclick="getInfo()">Sign In</button> 
+                    <a href="#"class="box-close">×</a>
+                </div>
+            </div>
+        </div>
         <img class="picture" src="images/Tennis.jfif" alt="a bunch of tennis balls">
     </div>
     <div class="content">
