@@ -12,11 +12,16 @@ buttons.forEach((button) => {
     const regname = JSON.parse(localStorage.getItem("signed"))["name"]
     //assigning all buttons a click function
     if(e.target.innerHTML != "Register") {
-      //if the button has a signed-in name, the option to unregister will appear
-        if(confirm("Would you like to unregister?")) {
-            e.target.innerHTML = "Register"
-            localStorage.removeItem(e.target.getAttribute('id'))
+      //if the button has a signed-in name, and if the account unregistering is the same one which registered (so accounts' can't
+      //mess with each others' registrations), the option to unregister will appear
+        if(e.target.innerHTML != JSON.parse(localStorage.getItem("signed"))["name"]) {
+          alert("Someone has already registered for that slot. Please choose a different one")
+          return
         }
+          if(confirm("Would you like to unregister?")) {
+              e.target.innerHTML = "Register"
+              localStorage.removeItem(e.target.getAttribute('id'))
+          }
     } else {
       //if not, the button will take a name and mark it signed-in
         e.target.innerHTML = regname
