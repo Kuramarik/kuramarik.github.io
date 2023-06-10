@@ -1,10 +1,15 @@
-const buttons = document.querySelectorAll('button');
+const buttons = document.querySelectorAll('button.reg');
 
 buttons.forEach((button) => {
     if(localStorage.getItem(button.getAttribute('id')) != null) {
       button.innerHTML=localStorage.getItem(button.getAttribute('id'))
     }
   button.addEventListener('click', function (e) {
+    if (localStorage.getItem("signed") == null) {
+      alert("Please sign or log in before entering a registration")
+      return
+    }
+    const regname = JSON.parse(localStorage.getItem("signed"))["name"]
     //assigning all buttons a click function
     if(e.target.innerHTML != "Register") {
       //if the button has a signed-in name, the option to unregister will appear
@@ -12,12 +17,10 @@ buttons.forEach((button) => {
             e.target.innerHTML = "Register"
             localStorage.removeItem(e.target.getAttribute('id'))
         }
-    }
-    else {
+    } else {
       //if not, the button will take a name and mark it signed-in
-        const name = prompt("Please enter your full name");
-        e.target.innerHTML = name
-        localStorage.setItem(e.target.getAttribute('id'), name)
+        e.target.innerHTML = regname
+        localStorage.setItem(e.target.getAttribute('id'), regname)
     }
   });
 });
@@ -65,7 +68,7 @@ function getInfo() {
   //if not, store them, plus the user's name
   const fullname = prompt("Enter your name as \"Last Name\", \"First Name\" to sign in!")
   if (fullname !="") {
-      newPeople["name"] = fullname
+      newPeople["name"] = JSON.stringify(fullname)
       alert("You have been signed in. Welcome! Please close the sign-in window")
   }
   objPeople.push(newPeople)
@@ -74,8 +77,6 @@ function getInfo() {
   localStorage.setItem("objlen", objlen)
   signbutton.innerHTML=newPeople["name"]
   localStorage.setItem("signed", JSON.stringify(newPeople))
-  console.log(objPeople)
-  console.log(objlen)
 }
 
 //localStorage.clear()
