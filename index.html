@@ -60,24 +60,31 @@
                 <p>To schedule your time, please input a date
                      before proceeding to the Schedule page
                 </p>
-                <div style="display:flex;
-                border:1px solid #004AAD">
+                <form action="plan/schedule.html" style="display:flex; border:1px solid #004AAD;">
                     <div style="display:flex;
-                    justify-content: space-around;
+                    justify-content: space-between;
                     flex-grow:1;">
-                        <p>date</p><p>/</p>
-                        <p>month</p><p>/</p>
-                        <p>year</p>
+                        <input type="date" id="date" name="date">
+                        <script>
+                            const date=document.getElementById("date")
+                            const d = new Date();
+                            const min = d.toISOString().split("T")[0]
+                            date.min = min;
+                            var max = d;
+                            max.setDate(d.getDate() + 30)
+                            date.max = max.toISOString().split("T")[0]
+                            console.log(date.min, date.max)
+                        </script>
                     </div>
-                    <div style="display:flex; flex-grow:1;"></div>
-                    <button id="schedulenav" onclick="location.href='plan/schedule.html'" type="button" style="display:flex;
+                    <input id="schedulenav" type="submit" style="display:flex;
                     flex-grow:2;
                     align-items:center;
                     justify-content:center;
                     background-color:#004AAD;
-                    color:#FFFFFF">
-                        SCHEDULE</button>
-                </div>
+                    color:#FFFFFF;
+                    padding-top: 20px;
+                    padding-bottom:20px;" value="SCHEDULE">
+                </form>
             </div>
         </div>
         <div class="contours">
