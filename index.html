@@ -64,7 +64,7 @@
                     <div style="display:flex;
                     justify-content: space-between;
                     flex-grow:1;">
-                        <input type="date" id="date" name="date">
+                        <input type="date" id="date"/>
                         <script>
                             const date=document.getElementById("date")
                             const d = new Date();
@@ -73,7 +73,6 @@
                             var max = d;
                             max.setDate(d.getDate() + 30)
                             date.max = max.toISOString().split("T")[0]
-                            console.log(date.min, date.max)
                         </script>
                     </div>
                     <input id="schedulenav" type="submit" style="display:flex;
@@ -83,7 +82,7 @@
                     background-color:#004AAD;
                     color:#FFFFFF;
                     padding-top: 20px;
-                    padding-bottom:20px;" value="SCHEDULE">
+                    padding-bottom:20px;" value="SCHEDULE" onclick="setitin()">
                 </form>
             </div>
         </div>

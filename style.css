@@ -3,7 +3,6 @@
     display:flex;
     flex-direction: column;
     align-items:stretch;
-    border:2px solid red;
 }
 .banner {
     display:flex;
@@ -11,7 +10,6 @@
     justify-content:flex-end;
     background-color:#004AAD;
     height: 60px;
-    border:2px solid red;
 }
 .picture {
     display:flex;
@@ -70,7 +68,6 @@
 .content{
     display:flex;
     justify-content: space-evenly;
-    border:2px solid red;
     padding:20px;
 }
 
@@ -118,7 +115,6 @@
 #timegrid{
     display:flex;
     flex-grow:5;
-    border:2px solid red;
     justify-content: space-evenly;
 }
 .timecolumn{
