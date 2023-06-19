@@ -1,59 +1,71 @@
+//Write code to make it so people can only see their own registrations/empty timeslots.
+//steps:
+//1: wall off the Schedule Page until the user signs in, aka make setitin() work
+//2: when the user moves to the Schedule Page, pinpoint any registrations not under their name
+//3: when found, replace the names under those registrations with "Taken", and fade the taken timeslot to gray
 var itinerary = {}
 const checks=[]
 const registrations = []
 const buttons = document.querySelectorAll('button.reg');
 
 buttons.forEach((button) => {
+  //assigning all buttons a click function
   button.addEventListener('click', function (e) {
     if (localStorage.getItem("signed") == null) {
+      //if user isn't signed in, they are asked to
       alert("Please sign or log in before entering a registration")
       return
     }
     const regname = JSON.parse(localStorage.getItem("signed"))["name"]
-    //assigning all buttons a click function
     if(e.target.innerHTML != "Register") {
-      //if the button has a signed-in name, and if the account unregistering is the same one which registered (so accounts' can't
-      //mess with each others' registrations), the option to unregister will appear
-        if(e.target.innerHTML != JSON.parse(localStorage.getItem("signed"))["name"]) {
+      //if the button has a signed-in name, and if the account unregistering is the same one which registered
+      //(so accounts' can't mess with each others' registrations), the option to unregister will appear
+        if(e.target.innerHTML != regname) {
           alert("Someone has already registered for that slot. Please choose a different one")
           return
         }
           if(confirm("Would you like to unregister?")) {
               e.target.innerHTML = "Register"
               localStorage.removeItem(e.target.getAttribute('id'))
+              itinerary=JSON.parse(localStorage.getItem("itinerary"))
+              console.log(localStorage.getItem(String(1)))
+              for (var k=0; k<itinerary[localStorage.getItem("selected")].length; k++) {
+                console.log(k)
+                if (itinerary[localStorage.getItem("selected")][k].includes(e.target.getAttribute('id'))) {
+                  var scape = itinerary[localStorage.getItem("selected")].splice(k, 1)
+                  localStorage.setItem("itinerary", JSON.stringify(itinerary))
+                  console.log(itinerary[localStorage.getItem("selected")].splice(k, 1))
+                  console.log(JSON.parse(localStorage.getItem("itinerary"))[localStorage.getItem("selected")])
+                }
+            }
           }
     } else {
         var slotted=true
         const regs=[]
         e.target.innerHTML = regname
-        //get registered id and name
+        //get registered timeslot and name
         regs.push(e.target.getAttribute('id'))
         regs.push(regname)
         //add it to registrations
         registrations.push(regs)
-        console.log(JSON.parse(localStorage.getItem("itinerary")))
-        //if there's already an itinerary in localStorage:
+        //if there's an itinerary in localStorage, add it to itinerary like this
         if (JSON.parse(localStorage.getItem("itinerary")) != null) {
+          itinerary=JSON.parse(localStorage.getItem("itinerary"))
           if (JSON.parse(localStorage.getItem("itinerary"))[localStorage.getItem("selected")] != null) {
             console.log(regs)
-            //set whatever date is currently selected to the new registrations
-            itinerary=JSON.parse(localStorage.getItem("itinerary"))
             itinerary[localStorage.getItem("selected")].push(regs)
             localStorage.setItem("itinerary", JSON.stringify(itinerary))
-            console.log("hey")
             slotted = false
           }
-        } 
+        }
+        //if there isn't an itinerary for it in localStorage, add it to itinerary like this
         if (slotted){
-          console.log("hi")
-          itinerary=JSON.parse(localStorage.getItem("itinerary"))
           itinerary[localStorage.getItem("selected")] = registrations
           localStorage.setItem("itinerary", JSON.stringify(itinerary))
         }
+        console.log(localStorage.getItem(String(1)))
         console.log(JSON.parse(localStorage.getItem("itinerary")))
         console.log(JSON.parse(localStorage.getItem("itinerary"))[localStorage.getItem("selected")])
-        //store "itinerary" in localstorage, and then go from there (it shouldn't be too hard, since "itinerary" literally matches
-        //every date to its registrations). After that, figure out how to remove days that have already passed from "itinerary"
     }
   });
 });
@@ -61,6 +73,7 @@ buttons.forEach((button) => {
 var objPeople = []
 
 function identify() {
+  //how to how to sign out
   const signbutton=document.getElementById('signbutton')
   if (signbutton.innerHTML != "SIGN IN") {
     if(confirm("Would you like to sign out?")) {
@@ -76,19 +89,18 @@ function getInfo() {
   } else {
     var objlen=0
   }
-  //set username and password
+  //get username and password
   var username=document.getElementById('username').value
   var password=document.getElementById('password').value
   document.getElementById('username').value =""
   document.getElementById('password').value =""
   const signbutton=document.getElementById('signbutton')
-  //establish newPeople
   newPeople = {}
   newPeople["username"]=username
   newPeople["password"]=password
-  //check if the username and password are in storage
   for (var i=0; i<=objlen;i++) {
     if (localStorage.getItem(String(i)) != null) {
+      //if the username and password have been entered before, aka in localstorage, log in user
       if (username==JSON.parse(localStorage.getItem(String(i)))["username"] && password==JSON.parse(localStorage.getItem(String(i)))["password"]) {
         signbutton.innerHTML=JSON.parse(localStorage.getItem(String(i)))["name"]
         localStorage.setItem("signed", localStorage.getItem(String(i)))
@@ -103,8 +115,10 @@ function getInfo() {
       newPeople["name"] = JSON.stringify(fullname)
       alert("You have been signed in. Welcome! Please close the sign-in window")
   }
+  //this doesn't happen if the user logs in:
   objPeople.push(newPeople)
   localStorage.setItem(String(objlen), JSON.stringify(objPeople[objlen]))
+  console.log(localStorage.getItem(String(1)))
   objlen += 1
   localStorage.setItem("objlen", objlen)
   signbutton.innerHTML=newPeople["name"]
@@ -113,15 +127,41 @@ function getInfo() {
 
 //localStorage.clear()
 //console.log(localStorage.getItem("signed"))
+var registers = []
 
 function ifsigned() {
   if ((window.location.href).includes("index")) {
+    //if the home page is opened, keep track of what dates are being selected from the calendar
     document.querySelector("#date").addEventListener("change", function() {
       var input = this.value;
       checks.push(input)
+    //also, check if there are any outdated registrations and purge them from the itinerary
     });
+    if(JSON.parse(localStorage.getItem("itinerary")) != null) {
+      var refresh = Object.keys(JSON.parse(localStorage.getItem("itinerary")))
+      itinerary=JSON.parse(localStorage.getItem("itinerary"))
+      for(var l=0; l<refresh.length; l++) {
+        if(refresh[l]<min){
+          delete itinerary.refresh[l]
+          localStorage.setItem("itinerary", JSON.stringify(itinerary))
+        }
+      }
+    }
+  }
+  if ((window.location.href).includes("schedule") &&  JSON.parse(localStorage.getItem("itinerary")) != null){
+    //if the schedule page is opened, get all of the registrations from the selected date and replace their innerHTML with their names
+    itinerary=JSON.parse(localStorage.getItem("itinerary"))
+    if(localStorage.getItem("selected") in itinerary) {
+      registers = JSON.parse(localStorage.getItem("itinerary"))[localStorage.getItem("selected")]
+      console.log(registers)
+      for(var j=0; j<registers.length; j++) {
+        document.getElementById(registers[j][0]).innerHTML = registers[j][1]
+      }
+    }
   }
   console.log(localStorage.getItem("selected"))
+  console.log(localStorage.getItem(String(1)))
+  //on startup, check if the user is signed in and update accordingly
   const signbutton=document.getElementById('signbutton')
   if (localStorage.getItem("signed") !=null) {
     signbutton.innerHTML = JSON.parse(localStorage.getItem("signed"))["name"]
@@ -133,8 +173,10 @@ function ifsigned() {
 
 //when it comes to the whole deal with the "Go to Schedule page" functionality with the onclick and action and whatnot, fix it later
 function setitin() {
+  //determine what date is selected when the user goes to the Schedule page
   localStorage.setItem("selected", checks[checks.length - 1])
   if (localStorage.getItem("selected")=undefined) {
+    //if the user hasn't put in a date, ask them to
     alert("Please input a date before proceeding to the Schedule page")
     return
   }
