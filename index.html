@@ -33,7 +33,7 @@
     <div class="content">
         <div class="navbar">
             <div class="pages">
-                <h3>Home</h3>
+                <h3><a href="./index.html">Home</a></h3>
                 <ul>
                     <li>Schedule</li>
                 </ul>
@@ -60,7 +60,7 @@
                 <p>To schedule your time, please input a date
                      before proceeding to the Schedule page
                 </p>
-                <form action="plan/schedule.html" style="display:flex; border:1px solid #004AAD;">
+                <form style="display:flex; border:1px solid #004AAD;" id="setitin">
                     <div style="display:flex;
                     justify-content: space-between;
                     flex-grow:1;">
@@ -82,8 +82,35 @@
                     background-color:#004AAD;
                     color:#FFFFFF;
                     padding-top: 20px;
-                    padding-bottom:20px;" value="SCHEDULE" onclick="setitin()">
+                    padding-bottom:20px;" value="SCHEDULE" onclick="redir()">
                 </form>
+                <script>
+                    var canred=false
+                    const setitin = document.getElementById("setitin")
+                    setitin.addEventListener('submit', (event) => {
+                        if (checks.length<1) {
+                            //if the user hasn't put in a date, ask them to
+                            alert("Please input a date before proceeding to the Schedule page")
+                            event.preventDefault()
+                            return
+                        }
+                        if (localStorage.getItem("signed")==undefined) {
+                            //if the user hasn't signed in, ask them to
+                            alert("Please sign in before proceeding to the Schedule page")
+                            event.preventDefault()
+                            return
+                        }
+                        canred=true
+                        localStorage.setItem("selected", checks[checks.length - 1])
+                        event.preventDefault()
+                    })
+                    function redir() {
+                        if(canred) {
+                            window.location.href="file:///C:/Users/ethan/Documents/proj/tennis_reg/plan/schedule.html"
+                        }
+                        setTimeout(redir, 100)
+                    }
+                </script>
             </div>
         </div>
         <div class="contours">

@@ -7,6 +7,7 @@ var itinerary = {}
 const checks=[]
 const registrations = []
 const buttons = document.querySelectorAll('button.reg');
+const ps = document.querySelectorAll('p')
 
 buttons.forEach((button) => {
   //assigning all buttons a click function
@@ -20,10 +21,6 @@ buttons.forEach((button) => {
     if(e.target.innerHTML != "Register") {
       //if the button has a signed-in name, and if the account unregistering is the same one which registered
       //(so accounts' can't mess with each others' registrations), the option to unregister will appear
-        if(e.target.innerHTML != regname) {
-          alert("Someone has already registered for that slot. Please choose a different one")
-          return
-        }
           if(confirm("Would you like to unregister?")) {
               e.target.innerHTML = "Register"
               localStorage.removeItem(e.target.getAttribute('id'))
@@ -149,6 +146,8 @@ function ifsigned() {
     }
   }
   if ((window.location.href).includes("schedule") &&  JSON.parse(localStorage.getItem("itinerary")) != null){
+    var taken=document.createElement("p")
+    taken.innerHTML="Taken"
     //if the schedule page is opened, get all of the registrations from the selected date and replace their innerHTML with their names
     itinerary=JSON.parse(localStorage.getItem("itinerary"))
     if(localStorage.getItem("selected") in itinerary) {
@@ -158,26 +157,25 @@ function ifsigned() {
         document.getElementById(registers[j][0]).innerHTML = registers[j][1]
       }
     }
+    var once=false
+    buttons.forEach((butt) => {
+      if(butt.innerHTML!=JSON.parse(localStorage.getItem("signed"))["name"]&&butt.innerHTML!="Register") {
+        if (!once) {
+          once=true
+        }
+        butt.setAttribute("disabled", "")
+        butt.innerHTML="Taken"
+      }
+    })
   }
   console.log(localStorage.getItem("selected"))
   console.log(localStorage.getItem(String(1)))
   //on startup, check if the user is signed in and update accordingly
   const signbutton=document.getElementById('signbutton')
-  if (localStorage.getItem("signed") !=null) {
+  if (localStorage.getItem("signed") != null) {
     signbutton.innerHTML = JSON.parse(localStorage.getItem("signed"))["name"]
   } else {
     signbutton.innerHTML = "SIGN IN"
-    return
-  }
-}
-
-//when it comes to the whole deal with the "Go to Schedule page" functionality with the onclick and action and whatnot, fix it later
-function setitin() {
-  //determine what date is selected when the user goes to the Schedule page
-  localStorage.setItem("selected", checks[checks.length - 1])
-  if (localStorage.getItem("selected")=undefined) {
-    //if the user hasn't put in a date, ask them to
-    alert("Please input a date before proceeding to the Schedule page")
     return
   }
 }
