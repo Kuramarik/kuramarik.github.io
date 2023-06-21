@@ -108,12 +108,12 @@ function getInfo() {
   }
   //if not, store them, plus the user's name
   const fullname = prompt("Enter your name as \"Last Name\", \"First Name\" to sign in!")
-  if (fullname !="") {
+  if (fullname !="" && fullname!=null) {
       newPeople["name"] = JSON.stringify(fullname)
       alert("You have been signed in. Welcome! Please close the sign-in window")
   } else{
-    return
-  }
+      return
+    }
   //this doesn't happen if the user logs in:
   objPeople.push(newPeople)
   localStorage.setItem(String(objlen), JSON.stringify(objPeople[objlen]))
@@ -124,7 +124,7 @@ function getInfo() {
   localStorage.setItem("signed", JSON.stringify(newPeople))
 }
 
-localStorage.clear()
+//localStorage.clear()
 //console.log(localStorage.getItem("signed"))
 var registers = []
 
