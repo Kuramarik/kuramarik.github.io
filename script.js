@@ -124,7 +124,7 @@ function getInfo() {
   localStorage.setItem("signed", JSON.stringify(newPeople))
 }
 
-//localStorage.clear()
+localStorage.clear()
 //console.log(localStorage.getItem("signed"))
 var registers = []
 
