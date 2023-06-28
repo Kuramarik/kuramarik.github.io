@@ -25,14 +25,10 @@ buttons.forEach((button) => {
               e.target.innerHTML = "Register"
               localStorage.removeItem(e.target.getAttribute('id'))
               itinerary=JSON.parse(localStorage.getItem("itinerary"))
-              console.log(localStorage.getItem(String(1)))
               for (var k=0; k<itinerary[localStorage.getItem("selected")].length; k++) {
-                console.log(k)
                 if (itinerary[localStorage.getItem("selected")][k].includes(e.target.getAttribute('id'))) {
                   var scape = itinerary[localStorage.getItem("selected")].splice(k, 1)
                   localStorage.setItem("itinerary", JSON.stringify(itinerary))
-                  console.log(itinerary[localStorage.getItem("selected")].splice(k, 1))
-                  console.log(JSON.parse(localStorage.getItem("itinerary"))[localStorage.getItem("selected")])
                 }
             }
           }
@@ -49,7 +45,6 @@ buttons.forEach((button) => {
         if (JSON.parse(localStorage.getItem("itinerary")) != null) {
           itinerary=JSON.parse(localStorage.getItem("itinerary"))
           if (JSON.parse(localStorage.getItem("itinerary"))[localStorage.getItem("selected")] != null) {
-            console.log(regs)
             itinerary[localStorage.getItem("selected")].push(regs)
             localStorage.setItem("itinerary", JSON.stringify(itinerary))
             slotted = false
@@ -60,9 +55,6 @@ buttons.forEach((button) => {
           itinerary[localStorage.getItem("selected")] = registrations
           localStorage.setItem("itinerary", JSON.stringify(itinerary))
         }
-        console.log(localStorage.getItem(String(1)))
-        console.log(JSON.parse(localStorage.getItem("itinerary")))
-        console.log(JSON.parse(localStorage.getItem("itinerary"))[localStorage.getItem("selected")])
     }
   });
 });
@@ -117,15 +109,11 @@ function getInfo() {
   //this doesn't happen if the user logs in:
   objPeople.push(newPeople)
   localStorage.setItem(String(objlen), JSON.stringify(objPeople[objlen]))
-  console.log(localStorage.getItem(String(1)))
   objlen += 1
   localStorage.setItem("objlen", objlen)
   signbutton.innerHTML=newPeople["name"]
   localStorage.setItem("signed", JSON.stringify(newPeople))
 }
-
-//localStorage.clear()
-//console.log(localStorage.getItem("signed"))
 var registers = []
 
 function ifsigned() {
@@ -154,7 +142,6 @@ function ifsigned() {
     itinerary=JSON.parse(localStorage.getItem("itinerary"))
     if(localStorage.getItem("selected") in itinerary) {
       registers = JSON.parse(localStorage.getItem("itinerary"))[localStorage.getItem("selected")]
-      console.log(registers)
       for(var j=0; j<registers.length; j++) {
         document.getElementById(registers[j][0]).innerHTML = registers[j][1]
       }
@@ -170,8 +157,6 @@ function ifsigned() {
       }
     })
   }
-  console.log(localStorage.getItem("selected"))
-  console.log(localStorage.getItem(String(1)))
   //on startup, check if the user is signed in and update accordingly
   const signbutton=document.getElementById('signbutton')
   if (localStorage.getItem("signed") != null) {
